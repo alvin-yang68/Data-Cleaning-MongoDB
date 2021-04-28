@@ -1,1 +1,1 @@
-waitress-serve nosqlcleaner:app
+web: waitress-serve --port=$PORT nosqlcleaner:app
