@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <h2>Choose dataset</h2>
+
+    <h2>Enter your query</h2>
+    <p>{{ form.query(size=32, class='form-control') }}</p>
+    {% for error in form.query.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <p>{{ form.submit(class='btn btn-primary') }}</p>
+</form>
+{% endblock %}
