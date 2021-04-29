@@ -3,13 +3,29 @@
 {% block content %}
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
-    <h2>Choose dataset</h2>
-
+    <h2>Choose a dataset</h2>
+    <p>
+        {% for subfield in form.collection %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+            <br>
+        </tr>
+        {% endfor %}
+    </p>
+    {% for error in form.collection.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
     <h2>Enter your query</h2>
     <p>{{ form.query(size=32, class='form-control') }}</p>
     {% for error in form.query.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
-    <p>{{ form.submit(class='btn btn-primary') }}</p>
+    <p>{{ form.search(class='btn btn-primary') }}</p>
+    <p>{{ form.editor(class='form-control', rows='20') }}</p>
+    {% for error in form.editor.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <p>{{ form.save(class='btn btn-primary') }}</p>
 </form>
 {% endblock %}

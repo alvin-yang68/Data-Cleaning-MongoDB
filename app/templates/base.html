@@ -24,7 +24,7 @@
 <body>
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="https://getbootstrap.com/docs/4.0/examples/starter-template/#">NoSQL Cleaner</a>
+    <a class="navbar-brand" href="{{ url_for('index') }}">NoSQL Cleaner</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -33,10 +33,10 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="https://getbootstrap.com/docs/4.0/examples/starter-template/#">MongoDB</a>
+          <a class="nav-link" href="{{ url_for('mongodb') }}">MongoDB</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://getbootstrap.com/docs/4.0/examples/starter-template/#">Neo4j</a>
+          <a class="nav-link" href="{{ url_for('neo4j') }}">Neo4j</a>
         </li>
       </ul>
     </div>
