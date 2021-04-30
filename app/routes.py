@@ -15,16 +15,29 @@ def index():
 def mongodb():
     form = Form()
     if form.validate_on_submit():
-        condition = eval(form.query.data)
-        editor = form.editor.data.strip()
         collection = Collection(app, form.collection.data)
-        docs = collection.find_and_jsonify(condition)
+
+        try:
+            collection.parse_query(form.query.data)
+        except Exception as e:
+            form.query.errors.append(f'Parser error: {str(e)}')
+
+        output = collection.execute_query()
+
+        if collection.expect_editor:
+            form.save.disable = False
+        else:
+            form.save.disable = True
 
         if form.search.data:
-            form.editor.data = docs
+            form.editor.data = output
             return render_template('mongodb.html', form=form)
 
-        collection.replace_many(condition, editor)
+        try:
+            collection.replace_docs(form.editor.data)
+        except Exception as e:
+            form.editor.errors.append(
+                f'Contents in the editor box are incorrectly formatted. Error: {str(e)}')
 
     return render_template('mongodb.html', form=form)
 
