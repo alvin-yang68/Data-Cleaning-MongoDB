@@ -4,12 +4,25 @@ from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea
 
 
-class Form(FlaskForm):
+class MongoForm(FlaskForm):
     collection = RadioField(
-        'Collection Selection',
+        'Dataset Selection',
         choices=[
             'movies_incorrect',
             'nobel_prizes_incorrect'
+        ]
+    )
+    query = StringField('Query')
+    search = SubmitField('Search')
+    editor = StringField('Editor', widget=TextArea())
+    save = SubmitField('Save')
+
+
+class Neo4jForm(FlaskForm):
+    collection = RadioField(
+        'Dataset Selection',
+        choices=[
+            'northwind',
         ]
     )
     query = StringField('Query')

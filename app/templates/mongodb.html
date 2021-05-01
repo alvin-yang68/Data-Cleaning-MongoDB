@@ -3,37 +3,14 @@
 {% block content %}
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
-
-    <h2>Choose a dataset</h2>
-
-    <p>
-        {% for subfield in form.collection %}
-        <tr>
-            <td>{{ subfield }}</td>
-            <td>{{ subfield.label }}</td>
-            <br>
-        </tr>
-        {% endfor %}
-    </p>
-    {% for error in form.collection.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-
-    <h2>Enter your query</h2>
-
-    <p>{{ form.query(size=32, class='form-control') }}</p>
-    {% for error in form.query.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-
-    <p>{{ form.search(class='btn btn-primary') }}</p>
+    <h1>MongoDB Cleaner</h1>
 
     <div class="text-left">
-        <p><strong>Instructions</strong></p>
-        <p><u>Querying</u></p>
+        <p><strong>Querying</strong></p>
         <ul>
-            <li>Select a dataset, write your query in the query box, and then press the &quot;Search&quot; button. The
-                result of executing the query will be displayed in the editor box below.</li>
+            <li>Select a dataset from below, write your query in the query box, and then press the &quot;Search&quot;
+                button. The
+                results from executing the query will be displayed in the editor box below.</li>
             <li>The query can support a range of operators (<span
                     style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&lt;</span>, <span
                     style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&gt;</span>, <span
@@ -82,14 +59,15 @@
                 condition.
             </li>
         </ul>
-        <p><u>Editor</u></p>
+        <p><strong>Editor</strong></p>
         <ul>
             <li>The results returned by the query will be displayed in the editor box below.&nbsp;</li>
             <li>If the query asks for documents and contains no prefix (<span
                     style='color: rgb(184, 49, 47); font-family: "Courier New", courier; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(239, 239, 239); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>length</span>,
                 <span
                     style='color: rgb(184, 49, 47); font-family: "Courier New", courier; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(239, 239, 239); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>isempty</span>),
-                then the editor box will be populated with documents in the JSON format.&nbsp;
+                then the editor box will be populated with documents in the JSON format, a list of JSON objects where
+                each JSON object represents a document.
             </li>
             <li>The editor box allows the user to clean/correct any documents returned by the query. Fields can be
                 inserted, updated, or deleted through the editor. Entire documents can also be inserted or deleted this
@@ -97,20 +75,47 @@
             </li>
             <li>Once the user is satisfied with the changes, press the &quot;Save&quot; button below the editor box.
                 This
-                will perform two actions:<ul>
-                    <li>Delete all documents that were originally returned by the query.</li>
-                    <li>Insert all documents in the current editor box into the database.</li>
-                </ul>
+                will replace all documents that were originally returned by the query with those from the editor box.
             </li>
-            <li>Please ensure that documents in the editor box are correctly formatted as JSON before pressing
-                &quot;Save&quot;. Otherwise, it will display an error.</li>
+
+            </li>
+            <li>If the content in the editor box is not correctly formatted when pressing
+                &quot;Save&quot;, an error will be displayed below the editor box.</li>
         </ul>
     </div>
 
-    <p><strong><span style="color: rgb(255, 0, 0);">Important: The server can sometimes timeout while processing
-                requests because the app is using the free tier of MongoDB
-                Atlas.<br> Please refresh and try
+    <p><strong><span style="color: rgb(255, 0, 0);">Important: Server may timeout while processing the
+                request as the database is hosted on the free cloud service provided by MongoDB
+                Atlas. Please try
                 again.</span></strong></p>
+
+    <h2>Choose a dataset</h2>
+
+    <p>
+        {% for subfield in form.collection %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+            <br>
+        </tr>
+        {% endfor %}
+    </p>
+    {% for error in form.collection.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    <br>
+    <h2>Enter your query</h2>
+
+    <p>{{ form.query(size=32, class='form-control') }}</p>
+    {% for error in form.query.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    <p>{{ form.search(class='btn btn-primary') }}</p>
+
+    <br>
+    <h2>Editor</h2>
 
     <p>{{ form.editor(class='form-control', rows='20') }}</p>
     {% for error in form.editor.errors %}

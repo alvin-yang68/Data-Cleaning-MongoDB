@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+  <link rel="icon" href="{{ url_for('static', filename='index_files/favicon.ico') }}">
 
   <title>NoSQLCleaner</title>
 
@@ -24,7 +24,7 @@
 <body>
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="{{ url_for('index') }}">NoSQL Cleaner</a>
+    <a class="navbar-brand" href="{{ url_for('index') }}">NoSQLCleaner</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

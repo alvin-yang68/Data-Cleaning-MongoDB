@@ -1,8 +1,9 @@
 from flask import render_template, flash
 
 from app import app
-from app.forms import Form
-from app.mongo import Collection
+from app.forms import MongoForm, Neo4jForm
+from app.mongo_db import MongoDriver
+from app.neo4j_db import Neo4jDriver
 
 
 @app.route('/')
@@ -13,28 +14,24 @@ def index():
 
 @app.route('/mongodb', methods=['GET', 'POST'])
 def mongodb():
-    form = Form()
+    form = MongoForm()
     if form.validate_on_submit():
-        collection = Collection(app, form.collection.data)
+        driver = MongoDriver(app, form.collection.data)
 
         try:
-            collection.parse_query(form.query.data)
+            output = driver.execute_user_query(form.query.data)
         except Exception as e:
             form.query.errors.append(f'Parser error: {str(e)}')
+            return render_template('mongodb.html', form=form)
 
-        output = collection.execute_query()
-
-        if collection.expect_editor:
-            form.save.disable = False
-        else:
-            form.save.disable = True
+        form.save.disable = False if driver.expect_replacement else True
 
         if form.search.data:
             form.editor.data = output
             return render_template('mongodb.html', form=form)
 
         try:
-            collection.replace_docs(form.editor.data)
+            driver.replace_docs(form.editor.data)
         except Exception as e:
             form.editor.errors.append(
                 f'Contents in the editor box are incorrectly formatted. Error: {str(e)}')
@@ -44,4 +41,26 @@ def mongodb():
 
 @app.route('/neo4j', methods=['GET', 'POST'])
 def neo4j():
-    return render_template('neo4j.html')
+    form = Neo4jForm()
+    if form.validate_on_submit():
+        driver = Neo4jDriver(app)
+
+        output = driver.execute_user_query(form.query.data)
+
+        try:
+            output = driver.execute_user_query(form.query.data)
+        except Exception as e:
+            form.query.errors.append(f'Parser error: {str(e)}')
+            return render_template('neo4j.html', form=form)
+
+        if form.search.data:
+            form.editor.data = output
+            return render_template('neo4j.html', form=form)
+
+        try:
+            driver.replace_subgraph(form.editor.data)
+        except Exception as e:
+            form.editor.errors.append(
+                f'Contents in the editor box are incorrectly formatted. Error: {str(e)}')
+
+    return render_template('neo4j.html', form=form)
