@@ -8,10 +8,10 @@ class MongoForm(FlaskForm):
     collection = RadioField(
         'Dataset Selection',
         choices=[
-            (1, 'movies_incorrect'),
-            (2, 'nobel_prizes_incorrect')
+            'movies_incorrect',
+            'nobel_prizes_incorrect'
         ],
-        default=2
+        default='nobel_prizes_incorrect'
     )
     query = StringField('Query')
     search = SubmitField('Search')
@@ -24,9 +24,9 @@ class Neo4jForm(FlaskForm):
     collection = RadioField(
         'Dataset Selection',
         choices=[
-            (1, 'northwind'),
+            'northwind',
         ],
-        default=1
+        default='northwind'
     )
     query = StringField('Query')
     search = SubmitField('Search')
