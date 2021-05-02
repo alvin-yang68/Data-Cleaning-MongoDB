@@ -8,6 +8,8 @@ class Config:
     NEO4J_URI = 'bolt://3.86.16.126:7687'
     NEO4J_USER = 'neo4j'
     NEO4J_PASSWORD = 'discriminations-jar-shocks'
+    CODEMIRROR_LANGUAGES = ['javascript']
+    CODEMIRROR_THEME = 'material-ocean'
 
 # waitress-serve --listen=localhost:8000 nosqlcleaner:app
 # heroku ps:scale web=1

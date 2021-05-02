@@ -85,7 +85,8 @@
     <br>
     <h2>Enter your query</h2>
 
-    <p>{{ form.query(size=32, class='form-control') }}</p>
+    <p>{{ form.query(size=32, class='form-control', style='font-family:monospace') }}</p>
+
     {% for error in form.query.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
@@ -95,7 +96,10 @@
     <br>
     <h2>Editor</h2>
 
-    <p>{{ form.editor(class='form-control', rows='20') }}</p>
+    <div class="text-left">
+        <p>{{ form.editor(class='form-control', rows='20') }}</p>
+    </div>
+
     {% for error in form.editor.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}

@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+  {{ codemirror.include_codemirror() }}
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,8 +12,6 @@
   <link rel="icon" href="{{ url_for('static', filename='index_files/favicon.ico') }}">
 
   <title>NoSQLCleaner</title>
-
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
 
   <!-- Bootstrap core CSS -->
   <link href="{{ url_for('static', filename='index_files/bootstrap.min.css') }}" rel="stylesheet">

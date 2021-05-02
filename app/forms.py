@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import RadioField, StringField, SubmitField
 from wtforms.validators import DataRequired
-from wtforms.widgets import TextArea
+from flask_codemirror.fields import CodeMirrorField
 
 
 class MongoForm(FlaskForm):
@@ -14,7 +14,8 @@ class MongoForm(FlaskForm):
     )
     query = StringField('Query')
     search = SubmitField('Search')
-    editor = StringField('Editor', widget=TextArea())
+    editor = CodeMirrorField(language='javascript',
+                             config={'lineNumbers': 'true'})
     save = SubmitField('Save')
 
 
@@ -27,5 +28,6 @@ class Neo4jForm(FlaskForm):
     )
     query = StringField('Query')
     search = SubmitField('Search')
-    editor = StringField('Editor', widget=TextArea())
+    editor = CodeMirrorField(language='javascript',
+                             config={'lineNumbers': 'true'})
     save = SubmitField('Save')
