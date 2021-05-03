@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <h1>MongoDBCleaner</h1>
+
+    <div class="text-left">
+        <p><strong>Querying</strong></p>
+        <ul>
+            <li>Select a dataset from below, write your query in the query box, and then press the &quot;Search&quot;
+                button. The
+                results from executing the query will be displayed in the editor box below.</li>
+            <li>The query can support a range of operators (<span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&lt;</span>, <span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&gt;</span>, <span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&lt;=</span>, <span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">&gt;=</span>, <span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">==</span>, <span
+                    style="color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);">!=,</span> <span
+                    style='color: rgb(184, 49, 47); background-color: rgb(239, 239, 239); font-family: "Courier New", courier;'>contains</span>).
+                For example, a simple query is <span
+                    style='color: rgb(184, 49, 47); background-color: rgb(239, 239, 239); font-family: "Courier New", courier;'>year
+                    == 2011</span>. This will return only documents where their &quot;year&quot; field have values
+                equaling
+                to 2011.</li>
+            <li>Note that a string value must be surrounded with double quotation marks.</li>
+            <li>The <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>contains</span>
+                operator for pattern matching accepts a value specified using regex.</li>
+            <li>If the query box is empty (i.e. no filter condition specified), it will return all documents of the
+                selected
+                dataset.</li>
+            <li>Simple queries can be chained together to form a more complex one using logical operators (<span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>&amp;&amp;</span>,
+                <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>||</span>).
+                For example, <span
+                    style='font-family: "Courier New", courier; background-color: rgb(239, 239, 239); color: rgb(184, 49, 47);'>year
+                    &lt; 2012 &amp;&amp; category == &quot;economics&quot; &amp;&amp; laureates.surname contains
+                    &quot;.*arge.*&quot;</span> will return documents with years lesser than 2012, with category of
+                economics, and laureate individuals having surnames containing the string &quot;arge&quot;.
+            </li>
+            <li>Note that parentheses are currently not supported by the parser. This means that the expression is
+                always
+                evaluated from left-to-right. For example, <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>a
+                    &amp;&amp; b || c &amp;&amp; d</span> is equivalent to <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>((a
+                    &amp;&amp; b) || c) &amp;&amp; d</span>.</li>
+            <li>The query can also have a prefix (<span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>length</span>,
+                <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>isempty</span>)
+                added. For example, <span
+                    style='font-family: "Courier New", courier; color: rgb(184, 49, 47); background-color: rgb(239, 239, 239);'>isempty
+                    year == 2016</span> will return a Boolean indicating whether there is any document matching the
+                query
+                condition.
+            </li>
+        </ul>
+        <p><strong>Editor</strong></p>
+        <ul>
+            <li>The results returned by the query will be displayed in the editor box below.&nbsp;</li>
+            <li>If the query asks for documents and contains no prefix (<span
+                    style='color: rgb(184, 49, 47); font-family: "Courier New", courier; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(239, 239, 239); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>length</span>,
+                <span
+                    style='color: rgb(184, 49, 47); font-family: "Courier New", courier; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(239, 239, 239); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>isempty</span>),
+                then the editor box will be populated with documents in the JSON format, a list of JSON objects where
+                each JSON object represents a document.
+            </li>
+            <li>The editor box allows the user to clean/correct any documents returned by the query. Fields can be
+                inserted, updated, or deleted through the editor. Entire documents can also be inserted or deleted this
+                way.
+            </li>
+            <li>Once the user is satisfied with the changes, press the &quot;Save&quot; button below the editor box.
+                This
+                will replace all documents that were originally returned by the query with those from the editor box.
+            </li>
+
+            </li>
+            <li>If the content in the editor box is not correctly formatted when pressing
+                &quot;Save&quot;, an error will be displayed below the editor box.</li>
+        </ul>
+    </div>
+
+    <p><strong><span style="color: rgb(255, 0, 0);">Important: Server may timeout while processing the
+                request as the database is hosted on the free cloud service provided by MongoDB
+                Atlas. Please try
+                again.</span></strong></p>
+
+    <h2>Choose a dataset</h2>
+
+    <p>
+        {% for subfield in form.collection %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+            <br>
+        </tr>
+        {% endfor %}
+    </p>
+    {% for error in form.collection.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    <br>
+    <h2>Enter your query</h2>
+
+    <p>{{ form.query(size=32, class='form-control', style='font-family:monospace') }}</p>
+
+    {% for error in form.query.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    <p>{{ form.search(class='btn btn-primary') }}</p>
+
+    <br>
+    <h2>Editor</h2>
+
+    <div class="text-left">
+        <p>{{ form.editor(class='form-control', rows='20') }}</p>
+    </div>
+
+    {% for error in form.editor.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {% if form.save.disable %}
+    <p>{{ form.save(class='btn btn-primary', disabled='true') }}</p>
+    {% else %}
+    <p>{{ form.save(class='btn btn-primary') }}</p>
+    {% endif %}
+</form>
+{% endblock %}
